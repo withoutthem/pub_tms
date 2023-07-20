@@ -7,6 +7,9 @@ import { useEffect } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import HCMore from 'highcharts/highcharts-more';
+import { url } from 'inspector';
+import triImg from './images/icon_tri_01.png';
+import triImg2 from './images/icon_tri_02.png';
 HCMore(Highcharts);
 //components
 
@@ -288,10 +291,13 @@ const bigDonutoptions = {
     ],
 };
 
+
+
 //가로그래프 옵션
 const xChartOptions = {
     chart: {
         type: 'bar',
+        height:320,
     },
     title: {
         style: {
@@ -302,34 +308,48 @@ const xChartOptions = {
         enabled: false, // 하단 차트 로고 비활성화
     },
     plotOptions: {
-        scatter: {
-            marker: {
-                symbol: 'triangle',
-                fillColor: ['red', 'green'],
-                lineColor: 'black',
-                lineWidth: 1,
-            },
+        bar: {
+            groupPadding: 0.23,
+            pointWidth:20,
+            borderRadius: 20,
         },
     },
+  
     series: [
         {
             name: '본인응답',
             data: [83, 83, 90],
+            color:'#26B9D1'
         },
         {
             name: '타인응답',
             data: [77, 73, 77],
+            color:'#25899A'
         },
         {
             name: '그룹평균',
             type: 'scatter',
-            data: [78, 78, 73],
-        },
-        {
+            data: [70, 70, 71],
+            color: 'black',
+            marker: {
+              symbol: `url(${triImg})`,
+              width: 15,
+              height: 10,
+            },
+            pointPlacement: 0.31, 
+          },
+          {
             name: '회사평균',
             type: 'scatter',
-            data: [70, 70, 71],
-        },
+            data: [78, 78, 73],
+            color: 'red', 
+            marker: {
+              symbol: `url(${triImg2})`,
+              width: 15,
+              height: 10,
+            },
+            pointPlacement: 0.31, 
+          }
     ],
     xAxis: {
         categories: ['비전/전략', '실행', '인쇄조직'],
@@ -337,6 +357,13 @@ const xChartOptions = {
             text: null,
         },
         lineColor: 'transparent',
+        labels: {
+            style: {
+                color: '#3E454D',
+                fontSize: '16px',
+                fontWeight: '700',
+            },
+        },
         gridLineWidth: 0,
     },
     yAxis: {
@@ -349,7 +376,78 @@ const xChartOptions = {
         lineWidth: '1',
         lineColor: '#DAE3ED',
     },
+    legend: {
+        itemStyle: {
+            color: '#6A6D70',
+            fontSize: '15.6px',
+            fontWeight: '400',
+        },
+    },
 };
+
+//폴리곤 옵션
+const polygonOptions = {
+    chart: {
+        polar: true,
+        type: 'polygon',
+    },
+    title: {
+        style: {
+            display: 'none',
+        },
+    },
+    credits: {
+        enabled: false, // 하단 차트 로고 비활성화
+    },
+    xAxis: {
+        categories: ['경험','성과' , '역량/리더쉽',],
+        tickmarkPlacement: 'on',
+        lineWidth: 0
+    },
+    yAxis: {
+        gridLineInterpolation: 'polygon',
+        lineWidth: 0,
+       gridLineWidth: 0, // Remove grid lines
+       labels: {
+            enabled: false // Remove labels
+        },
+        min: 0
+    },
+    series: [{
+        name: '23년',
+        data: [
+            { y: 80, color: 'red' },
+            { y: 50, color: 'red' },
+            { y: 90, color: 'red' }
+          ],
+        pointPlacement: 'on',
+        color:'transparent',
+        lineWidth: 2,
+        lineColor: 'black',
+        marker: {
+            fillColor: 'blue' // legend의 dot의 색상 설정
+        }
+    }],
+    legend: {
+        enabled: true,
+        useHTML: true, // HTML 사용 활성화
+        itemHiddenStyle:{
+            color:'transparent',
+        },
+        itemEvents: {
+            legendItemClick: function() {
+              // 클릭 이벤트 무시
+              return false;
+            }
+        },
+        labelFormatter: function(this:any) {
+        return `
+        <em style="display:inline-block; width:7px;height:7px;background:red; border-radius:50%;"></em>
+        <span style="color: red;">${this.name}</span>
+        `; // 커스텀 마크업으로 텍스트 변경
+        }
+      }
+}
 
 function App() {
     return (
@@ -381,6 +479,11 @@ function App() {
                     <StyledWidgetTitle theme={theme} title={'리더십 서베이 응답 결과 차트'}></StyledWidgetTitle>
                     <StyledbarChart>
                         <HighchartsReact highcharts={Highcharts} options={xChartOptions} />
+                    </StyledbarChart>
+                </StyledWidgetWrapDiv>
+                <StyledWidgetWrapDiv css={{ width: '328px', flex: '0', flexDirection: 'column', marginBottom: '30px' }}>
+                    <StyledbarChart>
+                        <HighchartsReact highcharts={Highcharts} options={polygonOptions} />
                     </StyledbarChart>
                 </StyledWidgetWrapDiv>
             </StyledFullHeightDiv>
