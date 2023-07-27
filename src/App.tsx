@@ -39,6 +39,11 @@ const StyledbubbleChart = styled('div')({
     height: '300px',
 });
 const StyledbarChart = styled('div')({});
+const StyledLineChart = styled('div')({
+    width: '480px',
+    height: '500px',
+    background: '#F5F7FA',
+});
 const pieColors = ['#68D6E8', '#B280FF'];
 const pieColors2 = ['#68D6E8', '#B280FF', '#FE7A7A', '#FFBF6B'];
 
@@ -291,13 +296,11 @@ const bigDonutoptions = {
     ],
 };
 
-
-
 //가로그래프 옵션
 const xChartOptions = {
     chart: {
         type: 'bar',
-        height:320,
+        height: 320,
     },
     title: {
         style: {
@@ -310,21 +313,21 @@ const xChartOptions = {
     plotOptions: {
         bar: {
             groupPadding: 0.23,
-            pointWidth:20,
+            pointWidth: 20,
             borderRadius: 20,
         },
     },
-  
+
     series: [
         {
             name: '본인응답',
             data: [83, 83, 90],
-            color:'#26B9D1'
+            color: '#26B9D1',
         },
         {
             name: '타인응답',
             data: [77, 73, 77],
-            color:'#25899A'
+            color: '#25899A',
         },
         {
             name: '그룹평균',
@@ -332,24 +335,24 @@ const xChartOptions = {
             data: [70, 70, 71],
             color: 'black',
             marker: {
-              symbol: `url(${triImg})`,
-              width: 15,
-              height: 10,
+                symbol: `url(${triImg})`,
+                width: 15,
+                height: 10,
             },
-            pointPlacement: 0.31, 
-          },
-          {
+            pointPlacement: 0.31,
+        },
+        {
             name: '회사평균',
             type: 'scatter',
             data: [78, 78, 73],
-            color: 'red', 
+            color: 'red',
             marker: {
-              symbol: `url(${triImg2})`,
-              width: 15,
-              height: 10,
+                symbol: `url(${triImg2})`,
+                width: 15,
+                height: 10,
             },
-            pointPlacement: 0.31, 
-          }
+            pointPlacement: 0.31,
+        },
     ],
     xAxis: {
         categories: ['비전/전략', '실행', '인쇄조직'],
@@ -400,54 +403,129 @@ const polygonOptions = {
         enabled: false, // 하단 차트 로고 비활성화
     },
     xAxis: {
-        categories: ['경험','성과' , '역량/리더쉽',],
+        categories: ['경험', '성과', '역량/리더쉽'],
         tickmarkPlacement: 'on',
-        lineWidth: 0
+        lineWidth: 0,
     },
     yAxis: {
         gridLineInterpolation: 'polygon',
         lineWidth: 0,
-       gridLineWidth: 0, // Remove grid lines
-       labels: {
-            enabled: false // Remove labels
+        gridLineWidth: 0, // Remove grid lines
+        labels: {
+            enabled: false, // Remove labels
         },
-        min: 0
+        min: 0,
     },
-    series: [{
-        name: '23년',
-        data: [
-            { y: 80, color: 'red' },
-            { y: 50, color: 'red' },
-            { y: 90, color: 'red' }
-          ],
-        pointPlacement: 'on',
-        color:'transparent',
-        lineWidth: 2,
-        lineColor: 'black',
-        marker: {
-            fillColor: 'blue' // legend의 dot의 색상 설정
-        }
-    }],
+    series: [
+        {
+            name: '23년',
+            data: [
+                { y: 80, color: 'red' },
+                { y: 50, color: 'red' },
+                { y: 90, color: 'red' },
+            ],
+            pointPlacement: 'on',
+            color: 'transparent',
+            lineWidth: 2,
+            lineColor: 'black',
+            marker: {
+                fillColor: 'blue', // legend의 dot의 색상 설정
+            },
+        },
+    ],
     legend: {
         enabled: true,
         useHTML: true, // HTML 사용 활성화
-        itemHiddenStyle:{
-            color:'transparent',
+        itemHiddenStyle: {
+            color: 'transparent',
         },
         itemEvents: {
-            legendItemClick: function() {
-              // 클릭 이벤트 무시
-              return false;
-            }
+            legendItemClick: function () {
+                // 클릭 이벤트 무시
+                return false;
+            },
         },
-        labelFormatter: function(this:any) {
-        return `
+        labelFormatter: function (this: any) {
+            return `
         <em style="display:inline-block; width:7px;height:7px;background:red; border-radius:50%;"></em>
         <span style="color: red;">${this.name}</span>
         `; // 커스텀 마크업으로 텍스트 변경
-        }
-      }
-}
+        },
+    },
+};
+
+//라인 옵션
+const lineOptions = {
+    chart: {
+        type: 'line',
+        backgroundColor: 'rgba(0,0,0,0)',
+    },
+    title: {
+        style: {
+            display: 'none',
+        },
+    },
+    credits: {
+        enabled: false, // 하단 차트 로고 비활성화
+    },
+    xAxis: {
+        categories: [`기획<br />포착`, `방향<br />설정`, `계획<br />구체화`, `타당성<br />검증`, `실행체계<br />구축`],
+        labels: {
+            style: {
+                color: '#8996A3',
+                fontSize: '14px',
+                fontWeight: '700',
+            },
+        },
+        lineWidth: '1',
+        lineColor: '#ddd',
+    },
+    yAxis: {
+        max: 4,
+        title: {
+            style: {
+                display: 'none',
+            },
+        },
+        labels: {
+            style: {
+                color: '#9DA8B4',
+                fontSize: '12px',
+                fontWeight: '400',
+            },
+        },
+        gridLineWidth: 1,
+        gridLineColor: '#ddd',
+    },
+    plotOptions: {
+        line: {
+            lineWidth: 3,
+            marker: {
+                enabled: false,
+            },
+        },
+    },
+    legend: {
+        enabled: false,
+    },
+    series: [
+        {
+            name: '대상자 종합점수',
+            data: [1, 2.2, 3, 2.4, 3],
+            color: '#0D6978',
+        },
+        {
+            name: '평균',
+            data: [2.5, 1.7, 1, 2.2, 2.7],
+            color: '#26B9D1',
+        },
+        {
+            name: '상위 20%',
+            data: [1.8, 2, 4, 3, 2.5],
+            color: '#B7E4EE',
+        },
+    ],
+};
 
 function App() {
     return (
@@ -485,6 +563,11 @@ function App() {
                     <StyledbarChart>
                         <HighchartsReact highcharts={Highcharts} options={polygonOptions} />
                     </StyledbarChart>
+                </StyledWidgetWrapDiv>
+                <StyledWidgetWrapDiv css={{ width: '550px', flex: '0' }}>
+                    <StyledLineChart>
+                        <HighchartsReact highcharts={Highcharts} options={lineOptions} />
+                    </StyledLineChart>
                 </StyledWidgetWrapDiv>
             </StyledFullHeightDiv>
         </>
