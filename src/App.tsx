@@ -39,6 +39,7 @@ const StyledbubbleChart = styled('div')({
     height: '300px',
 });
 const StyledbarChart = styled('div')({});
+const StyledpolygonChart = styled('div')({});
 const StyledLineChart = styled('div')({
     width: '480px',
     height: '500px',
@@ -393,6 +394,7 @@ const polygonOptions = {
     chart: {
         polar: true,
         type: 'polygon',
+        height: 310,
     },
     title: {
         style: {
@@ -406,6 +408,18 @@ const polygonOptions = {
         categories: ['경험', '성과', '역량/리더쉽'],
         tickmarkPlacement: 'on',
         lineWidth: 0,
+        labels: {
+            useHTML: true,
+            formatter: function (this: any) {
+                console.log(this.value);
+                if (this.value == '역량/리더쉽') {
+                    return `<div style="transform: translateX(35px)">${this.value}</div>`; // '역량/리더쉽' 레이블만 오른쪽으로 10px 이동
+                } else {
+                    return this.value;
+                }
+            },
+            y: 10,
+        },
     },
     yAxis: {
         gridLineInterpolation: 'polygon',
@@ -420,14 +434,44 @@ const polygonOptions = {
         {
             name: '23년',
             data: [
-                { y: 80, color: 'red' },
-                { y: 50, color: 'red' },
-                { y: 90, color: 'red' },
+                { y: 80, color: '#904FF2' },
+                { y: 50, color: '#904FF2' },
+                { y: 90, color: '#904FF2' },
             ],
             pointPlacement: 'on',
             color: 'transparent',
             lineWidth: 2,
-            lineColor: 'black',
+            lineColor: '#904FF2',
+            marker: {
+                fillColor: 'blue', // legend의 dot의 색상 설정
+            },
+        },
+        {
+            name: '22년',
+            data: [
+                { y: 50, color: '#DFA25B' },
+                { y: 20, color: '#DFA25B' },
+                { y: 60, color: '#DFA25B' },
+            ],
+            pointPlacement: 'on',
+            color: 'transparent',
+            lineWidth: 2,
+            lineColor: '#DFA25B',
+            marker: {
+                fillColor: 'blue', // legend의 dot의 색상 설정
+            },
+        },
+        {
+            name: '그룹기준(3.5)',
+            data: [
+                { y: 70, color: '#E71557' },
+                { y: 40, color: '#E71557' },
+                { y: 70, color: '#E71557' },
+            ],
+            pointPlacement: 'on',
+            color: 'transparent',
+            lineWidth: 2,
+            lineColor: '#E71557',
             marker: {
                 fillColor: 'blue', // legend의 dot의 색상 설정
             },
@@ -446,11 +490,13 @@ const polygonOptions = {
             },
         },
         labelFormatter: function (this: any) {
+            console.log(this);
             return `
-        <em style="display:inline-block; width:7px;height:7px;background:red; border-radius:50%;"></em>
-        <span style="color: red;">${this.name}</span>
-        `; // 커스텀 마크업으로 텍스트 변경
+            <em style="display:inline-block; width:7px;height:7px;background:${this.options.lineColor}; border-radius:50%; position: relative; top: -1px;"></em>
+            <span style="color: #000">${this.name}</span>
+            `; // 커스텀 마크업으로 텍스트 변경
         },
+        itemDistance: 5, // 항목 사이의 간격 조정
     },
 };
 
@@ -560,9 +606,9 @@ function App() {
                     </StyledbarChart>
                 </StyledWidgetWrapDiv>
                 <StyledWidgetWrapDiv css={{ width: '328px', flex: '0', flexDirection: 'column', marginBottom: '30px' }}>
-                    <StyledbarChart>
+                    <StyledpolygonChart>
                         <HighchartsReact highcharts={Highcharts} options={polygonOptions} />
-                    </StyledbarChart>
+                    </StyledpolygonChart>
                 </StyledWidgetWrapDiv>
                 <StyledWidgetWrapDiv css={{ width: '550px', flex: '0' }}>
                     <StyledLineChart>
